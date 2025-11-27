@@ -5,3 +5,11 @@ __pycache__/
 terraform.tfstate
 terraform.tfstate.backup
 *.log
+# local python envs and DB
+.venv/
+backend/.venv/
+backend/data.db
+# editor / OS files
+.vscode/
+*.log
+.DS_Store

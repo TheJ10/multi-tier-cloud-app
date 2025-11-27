@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: multi-tier-cloud-app-backend:dev
+    container_name: mtc-backend-dev
+    ports:
+      - "8000:8000"
+    environment:
+      # when you later use real DB/Secrets, replace these envs with secure values
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./backend:/app  # useful for live code reload during local dev (optional)
+      # If you prefer container-only code (no bind mount), remove the volumes entry.
+    depends_on:
+      - redis
+    # Uncomment to run uvicorn with auto-reload (if you mount code)
+    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  redis:
+    image: redis:7-alpine
+    container_name: mtc-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
