@@ -1,0 +1,38 @@
+name: Build and push Docker image to ECR (secrets)
+
+on:
+  push:
+    branches: [ dev, main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (secrets)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region ap-south-1 \
+          | docker login --username AWS --password-stdin 147997125827.dkr.ecr.ap-south-1.amazonaws.com
+
+      - name: Build Docker image
+        run: |
+          docker build -t mta-backend:${{ github.sha }} backend
+          docker tag mta-backend:${{ github.sha }} 147997125827.dkr.ecr.ap-south-1.amazonaws.com/mta-backend:${{ github.sha }}
+          docker tag mta-backend:${{ github.sha }} 147997125827.dkr.ecr.ap-south-1.amazonaws.com/mta-backend:latest
+
+      - name: Push to ECR
+        run: |
+          docker push 147997125827.dkr.ecr.ap-south-1.amazonaws.com/mta-backend:${{ github.sha }}
+          docker push 147997125827.dkr.ecr.ap-south-1.amazonaws.com/mta-backend:latest
