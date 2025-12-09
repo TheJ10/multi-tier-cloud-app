@@ -23,6 +23,7 @@ RUN python -m pip install --upgrade pip && \
 
 # Copy application code
 COPY . .
+RUN chown -R 1000:1000 /app
 
 # Expose the port the app will run on
 EXPOSE 8000
@@ -33,3 +34,4 @@ USER appuser
 
 # Default command to run the app. We'll use uvicorn.
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
