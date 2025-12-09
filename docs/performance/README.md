@@ -22,5 +22,5 @@ Copy code
 
 ## 🔹 Notes
 - Checks failed because the tested route does not return a 200 status.  
-- We will adjust the target endpoint in the next steps for cleaner results.
+- I will adjust the target endpoint in the next steps for cleaner results.
 
