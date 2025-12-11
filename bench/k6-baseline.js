@@ -1,7 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 
-const TARGET = "http://3.110.151.12:8000/docs";
+const TARGET = __ENV.TARGET || "http://127.0.0.1:8000/docs";
 
 export let options = {
   vus: 20,
