@@ -13,3 +13,4 @@ backend/data.db
 .vscode/
 *.log
 .DS_Store
+trust-policy.json
