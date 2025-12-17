@@ -33,5 +33,5 @@ RUN groupadd -g 1000 appuser && useradd -r -u 1000 -g appuser appuser
 USER appuser
 
 # Default command to run the app. We'll use uvicorn.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
 
