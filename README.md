@@ -19,24 +19,47 @@ The goal of this project is not just functionality, but **clarity, reproducibili
 
 ### High-Level Architecture
 ```text
-	┌──────────────┐
-	│ Developer    │
-	│ (curl / k6)  │
-	└──────┬───────┘
-	  HTTP (8000)
-	       ▼
-    ┌────────────────────────┐
-    │     ECS Fargate Task   |
-    │   ┌─────────────────┐  │
-    │   │ FastAPI(uvicorn)│  │
-    │   │ multiple workers│  │
-    │   └─────────────────┘  │
-    └──────────-─────────────┘	        
+┌──────────────────────────────┐
+│          Developer           │
+│   (Browser / curl / k6)      │
+└──────────────┬───────────────┘
+               │
+               │ HTTP :8000
                ▼
-    ┌────────────────────────┐
-    │     AWS Networking     │
-    │   VPC + Subnets + SG   │
-    └────────────────────────┘
+┌──────────────────────────────┐
+│      AWS Security Group      │
+│  Inbound: TCP 8000 (My IP)   │
+│  Outbound: All               │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│     Amazon ECS Cluster       │
+│     (Fargate Launch Type)    │
+│                              │
+│  ┌────────────────────────┐  │
+│  │   ECS Task (Backend)   │  │
+│  │  -------------------   │  │
+│  │  FastAPI Application   │  │
+│  │  Uvicorn (workers=2)   │  │
+│  │  Port: 8000            │  │
+│  └────────────────────────┘  │
+│                              │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│       AWS Networking         │
+│  VPC + Private Subnets       │
+│  ENI + Public IP (Fargate)   │
+└──────────────────────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│     Amazon ECR Repository    │
+│  (Docker Images Storage)     │
+└──────────────────────────────┘
+
 ```
 
 ### CI/CD Flow
