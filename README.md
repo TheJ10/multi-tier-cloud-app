@@ -37,7 +37,7 @@ The goal of this project is not just functionality, but **clarity, reproducibili
     │     AWS Networking     │
     │   VPC + Subnets + SG   │
     └────────────────────────┘
-
+```
 
 ### CI/CD Flow
 ```text
