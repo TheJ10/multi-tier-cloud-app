@@ -1,4 +1,9 @@
 # Multi-Tier Cloud Application (FastAPI + AWS ECS + Terraform + CI/CD)
+A production-oriented cloud backend demonstrating real-world engineering practices
+using FastAPI, Docker, AWS ECS (Fargate), Terraform, and GitHub Actions. The project
+emphasizes reproducible infrastructure, safe CI/CD pipelines, and measurable
+performance testing rather than over-automation or unnecessary complexity.
+
 
 ## Overview
 This project demonstrates a **production-ready multi-tier cloud application** built with:
